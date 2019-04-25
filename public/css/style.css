@@ -5,7 +5,7 @@ html {
   
   body {
     margin-bottom: 80px;
-    background-image: url("./images/cheerup.jpg");
+    background-image: url("../images/cheerup.jpg");
   }
   
   .card a:not([href]):not([tabindex]).scrape-new {
@@ -47,7 +47,7 @@ html {
   
   .jumbotron .background-image {
     height: 100%;
-    background-image: url("./images/oskar-kadaksoo-1466701-unsplash.jpg");
+    background-image: url("../images/oskar-kadaksoo-1466701-unsplash.jpg");
     background-size: cover;
     background-position: -10%;
   }

@@ -23,6 +23,8 @@ $(document).ready(function() {
 
     }
   onLoad();
+
+  
     function initPage() {
       // Run an AJAX request for any unsaved headlines
       $.get("/scrape").then(function(data) {
