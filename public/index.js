@@ -7,10 +7,25 @@ $(document).ready(function() {
     $(document).on("click", ".btn.save", handleArticleSave);
     $(document).on("click", ".scrape-new", handleArticleScrape);
     $(".clear").on("click", handleArticleClear);
-  
+
+    function onLoad() {
+      $.get("/articles").then(function(data){
+        articleContainer.empty();
+        // If we have headlines, render them to the page
+        if (data && data.length) {
+          renderArticles(data);
+        } else {
+          // Otherwise render a message explaining we have no articles
+          renderEmpty();
+        }
+      })
+
+
+    }
+  onLoad();
     function initPage() {
       // Run an AJAX request for any unsaved headlines
-      $.get("/api/headlines?saved=false").then(function(data) {
+      $.get("/scrape").then(function(data) {
         articleContainer.empty();
         // If we have headlines, render them to the page
         if (data && data.length) {
@@ -44,13 +59,13 @@ $(document).ready(function() {
       var cardHeader = $("<div class='card-header'>").append(
         $("<h3>").append(
           $("<a class='article-link' target='_blank' rel='noopener noreferrer'>")
-            .attr("href", article.url)
-            .text(article.headline),
+            .attr("href", article.link)
+            .text(article.title),
           $("<a class='btn btn-success save'>Save Article</a>")
         )
       );
   
-      var cardBody = $("<div class='card-body'>").text(article.summary);
+      var cardBody = $("<div class='card-body'>").text(article.description);
   
       card.append(cardHeader, cardBody);
       // We attach the article's id to the jQuery element
@@ -111,16 +126,23 @@ $(document).ready(function() {
       });
     }
   
+
     function handleArticleScrape() {
-      // This function handles the user clicking any "scrape new article" buttons
-      $.get("/api/fetch").then(function(data) {
-        // If we are able to successfully scrape the NYTIMES and compare the articles to those
-        // already in our collection, re render the articles on the page
-        // and let the user know how many unique articles we were able to save
-        initPage();
-        bootbox.alert($("<h3 class='text-center m-top-80'>").text(data.message));
-      });
+      $.get("/scrape").then(function(data){
+        console.log("this does nothing at the moment")
+      })
+
     }
+    // function handleArticleScrape() {
+    //   // This function handles the user clicking any "scrape new article" buttons
+    //   $.get("/api/fetch").then(function(data) {
+    //     // If we are able to successfully scrape the NYTIMES and compare the articles to those
+    //     // already in our collection, re render the articles on the page
+    //     // and let the user know how many unique articles we were able to save
+    //     initPage();
+    //     bootbox.alert($("<h3 class='text-center m-top-80'>").text(data.message));
+    //   });
+    // }
   
     function handleArticleClear() {
       $.get("api/clear").then(function() {

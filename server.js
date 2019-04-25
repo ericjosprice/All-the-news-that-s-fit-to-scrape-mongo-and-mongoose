@@ -33,32 +33,49 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 // Routes
 
+
+// app.get("/", function(req,res){
+
+//   res.render("index")
+// })
+
+// app.get("/saved", function(req,res){
+
+//   res.render(saved.html)
+// })
+
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
-  axios.get("https://www.austinchronicle.com/news/").then(function(response) {
+  axios.get("https://www.austinchronicle.com/daily/news").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
     // Now, we grab every h2 within an article tag, and do the following:
-    $("a.Chronosel").each(function(i, element) {
+    $("div.blog-text").each(function(i, element) {
       
-      var title = $(element).text();
-      var link = $(element).attr("href")
 
-      console.log("title: ", title);
-      console.log("link: ", link);
+      var sTitle = $(element).find("a").text().trim();
+      var sDescription = $(element).find(".intro-blog").text().trim();
+      var sLink = $(element).find("a.article-headline-link-blog").attr("href");
+
+      // console.log("title: ", sTitle);
+      // console.log("description: ", sDescription);
+      // console.log("link: ", sLink);
 
       var oArticle = {
-          title: title,
-          link: link
+          title: sTitle,
+          description: sDescription,
+          link: "https://www.austinchronicle.com/daily/news/" + sLink
       }
+
+      console.log(oArticle);
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(oArticle)
         .then(function(dbArticle) {
           // View the added result in the console
-          console.log(dbArticle);
+          // console.log(dbArticle);
         })
         .catch(function(err) {
           // If an error occurred, log it
