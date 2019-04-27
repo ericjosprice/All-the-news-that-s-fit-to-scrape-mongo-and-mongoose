@@ -10,9 +10,24 @@ $(document).ready(function() {
     $(document).on("click", ".btn.note-delete", handleNoteDelete);
     $(".clear").on("click", handleArticleClear);
   
+function onLoad(){
+     // Empty the article container, run an AJAX request for any saved headlines
+     $.get("/saved/true").then(function(data) {
+      articleContainer.empty();
+      // If we have headlines, render them to the page
+      if (data && data.length) {
+        renderArticles(data);
+      } else {
+        // Otherwise render a message explaining we have no articles
+        renderEmpty();
+
+}
+
+onLoad();
+
     function initPage() {
       // Empty the article container, run an AJAX request for any saved headlines
-      $.get("/api/headlines?saved=true").then(function(data) {
+      $.get("/saved/true").then(function(data) {
         articleContainer.empty();
         // If we have headlines, render them to the page
         if (data && data.length) {
@@ -46,14 +61,14 @@ $(document).ready(function() {
       var cardHeader = $("<div class='card-header'>").append(
         $("<h3>").append(
           $("<a class='article-link' target='_blank' rel='noopener noreferrer'>")
-            .attr("href", article.url)
-            .text(article.headline),
+            .attr("href", article.link)
+            .text(article.title),
           $("<a class='btn btn-danger delete'>Delete From Saved</a>"),
           $("<a class='btn btn-info notes'>Article Notes</a>")
         )
       );
   
-      var cardBody = $("<div class='card-body'>").text(article.summary);
+      var cardBody = $("<div class='card-body'>").text(article.description);
   
       card.append(cardHeader, cardBody);
   

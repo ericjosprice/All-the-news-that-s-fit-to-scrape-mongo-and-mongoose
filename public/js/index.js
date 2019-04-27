@@ -117,7 +117,7 @@ $(document).ready(function() {
       // Using a patch method to be semantic since this is an update to an existing record in our collection
       $.ajax({
         method: "PUT",
-        url: "/api/headlines/" + articleToSave._id,
+        url: "/articles/" + articleToSave._id,
         data: articleToSave
       }).then(function(data) {
         // If the data was saved successfully
@@ -134,29 +134,20 @@ $(document).ready(function() {
         console.log("this does nothing at the moment")
         articleContainer.empty();
         renderArticles(data);
-
-
-
+        location.reload();
 
       })
 
     }
-    // function handleArticleScrape() {
-    //   // This function handles the user clicking any "scrape new article" buttons
-    //   $.get("/api/fetch").then(function(data) {
-    //     // If we are able to successfully scrape the NYTIMES and compare the articles to those
-    //     // already in our collection, re render the articles on the page
-    //     // and let the user know how many unique articles we were able to save
-    //     initPage();
-    //     bootbox.alert($("<h3 class='text-center m-top-80'>").text(data.message));
-    //   });
-    // }
+  
   
     function handleArticleClear() {
       $.get("api/clear").then(function() {
         articleContainer.empty();
         initPage();
+        
       });
+      location.reload();
     }
   });
   
