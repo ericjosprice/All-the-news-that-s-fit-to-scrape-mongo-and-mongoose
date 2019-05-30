@@ -10,20 +10,22 @@ $(document).ready(function() {
     $(document).on("click", ".btn.note-delete", handleNoteDelete);
     $(".clear").on("click", handleArticleClear);
   
-function onLoad(){
-     // Empty the article container, run an AJAX request for any saved headlines
-     $.get("/saved/true").then(function(data) {
-      articleContainer.empty();
-      // If we have headlines, render them to the page
-      if (data && data.length) {
-        renderArticles(data);
-      } else {
-        // Otherwise render a message explaining we have no articles
-        renderEmpty();
+  function onLoad(){
+      // Empty the article container, run an AJAX request for any saved headlines
+      $.get("/saved/true").then(function(data) {
+        articleContainer.empty();
+        // If we have headlines, render them to the page
+        if (data && data.length) {
+          renderArticles(data);
+        } else {
+          // Otherwise render a message explaining we have no articles
+          renderEmpty();
+        }
+      });
 
-}
+  }
 
-onLoad();
+  onLoad();
 
     function initPage() {
       // Empty the article container, run an AJAX request for any saved headlines
@@ -224,5 +226,4 @@ onLoad();
           initPage();
         });
     }
-  });
-  
+});

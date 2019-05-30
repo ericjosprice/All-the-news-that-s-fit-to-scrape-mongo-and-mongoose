@@ -29,4 +29,4 @@ Pressing "Scrape New Articles" gets the current articles from the site.
 
 ## Author
 
-* **Eric**
+* **Eric Price**
