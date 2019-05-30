@@ -23,21 +23,6 @@ $(document).ready(function() {
 
     }
   onLoad();
-
-
-    // function initPage() {
-    //   // Run an AJAX request for any unsaved headlines
-    //   $.get("/scrape").then(function(data) {
-    //     articleContainer.empty();
-    //     // If we have headlines, render them to the page
-    //     if (data && data.length) {
-    //       renderArticles(data);
-    //     } else {
-    //       // Otherwise render a message explaining we have no articles
-    //       renderEmpty();
-    //     }
-    //   });
-    // }
   
     function renderArticles(articles) {
       // This function handles appending HTML containing our article data to the page
@@ -130,11 +115,10 @@ $(document).ready(function() {
   
 
     function handleArticleScrape() {
-      $.get("/scrape").then(function(data){
-        articleContainer.empty();
-        
+      $.get("/scrape").then(function(response){
+        console.log(response);
+        onLoad();
       })
-    location.reload()
     }
   
   

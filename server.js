@@ -81,6 +81,7 @@ app.get("/scrape", function (req, res) {
         .then(function (dbArticle) {
           // View the added result in the console
           // console.log(dbArticle);
+          res.send("scrape complete")
         })
         .catch(function (err) {
           // If an error occurred, log it
