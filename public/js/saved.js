@@ -136,6 +136,8 @@ $(document).ready(function() {
       var articleToDelete = $(this)
         .parents(".card")
         .data();
+
+        // console.log("what is articleToDele?: ", articleToDelete)
   
       // Remove card from page
       $(this)
@@ -144,7 +146,7 @@ $(document).ready(function() {
       // Using a delete method here just to be semantic since we are deleting an article/headline
       $.ajax({
         method: "DELETE",
-        url: "/api/headlines/" + articleToDelete._id
+        url: "/articles/" + articleToDelete._id
       }).then(function(data) {
         // If this works out, run initPage again which will re-render our list of saved articles
         if (data.ok) {

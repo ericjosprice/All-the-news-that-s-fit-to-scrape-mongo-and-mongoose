@@ -49,7 +49,7 @@ app.get("/saved", function (req, res) {
   res.sendFile(path.join(__dirname, "./public/html/saved.html"));
 })
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the Austin Chronicle website
 app.get("/scrape", function (req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://www.austinchronicle.com/daily/news").then(function (response) {
@@ -110,7 +110,7 @@ app.get("/saved/true", function (req, res) {
     .then(function (dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
       res.json(dbArticle);
-      console.log("saved route was hit")
+      // console.log("saved route was hit")
     })
     .catch(function (err) {
       // If an error occurred, send it to the client
@@ -122,7 +122,7 @@ app.get("/api/clear", function (req, res) {
 
   db.Article.remove().then(function (dbEmpty) {
 
-    console.log("Articles have been removed")
+    // console.log("Articles have been removed")
   })
 
 
@@ -158,6 +158,21 @@ app.put("/articles/:id", function (req, res) {
     .then(function (saved) {
 
       console.log(saved.saved)
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      console.log(err)
+    });
+});
+
+// Route for saving/updating an Article's associated Note
+app.delete("/articles/:id", function (req, res) {
+  db.Article.remove({
+      _id: req.params.id
+    })
+    .then(function (deleted) {
+
+      res.json(deleted);
     })
     .catch(function (err) {
       // If an error occurred, send it to the client
